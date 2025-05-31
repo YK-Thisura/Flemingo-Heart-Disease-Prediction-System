@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Heart Disease Prediction</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Google Font -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cal+Sans&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      * {
+        box-sizing: border-box;
+        font-family: "Cal Sans", sans-serif;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(145deg, #f0f4f8, #dfe7f1);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .container {
+        background: #ffffff;
+        max-width: 900px;
+        width: 100%;
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+      }
+
+      h2 {
+        text-align: center;
+        margin-bottom: 50px;
+        color: #0f172a;
+        font-size: 32px;
+        font-weight: 700;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .form-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        margin-bottom: 20px;
+      }
+
+      .form-group {
+        flex: 1;
+        min-width: 250px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      label {
+        font-weight: 600;
+        color: #1e293b;
+        margin-bottom: 6px;
+      }
+
+      input[type="number"],
+      select {
+        padding: 12px 14px;
+        border-radius: 10px;
+        border: 1px solid #cbd5e1;
+        background-color: #ebd9d9;
+        font-size: 16px;
+        transition: border 0.3s ease;
+      }
+
+      input[type="number"]:focus,
+      select:focus {
+        border-color: #3b82f6;
+        outline: none;
+      }
+
+      input[type="submit"] {
+        margin-top: 30px;
+        padding: 14px;
+        font-size: 18px;
+        background-color: #ee4343;
+        color: white;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+      }
+
+      input[type="submit"]:hover {
+        background-color: #ec0101;
+        transform: scale(1.02);
+      }
+
+      h3 {
+        margin-top: 40px;
+        text-align: center;
+        font-size: 24px;
+        color: #1f2937;
+      }
+
+      p {
+        text-align: center;
+        font-size: 18px;
+        color: #475569;
+      }
+
+      @media (max-width: 768px) {
+        .form-group {
+          min-width: 100%;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h2>🫀 Heart Disease Risk Predictor</h2>
+      <form action="/predict" method="post">
+        <!-- Row 1 -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="age">Age</label>
+            <input type="number" name="age" step="any" required />
+          </div>
+          <div class="form-group">
+            <label for="sex">Sex</label>
+            <select name="sex" required>
+              <option value="1">Male</option>
+              <option value="0">Female</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="cp">Chest Pain Type (cp)</label>
+            <input type="number" name="cp" step="any" required />
+          </div>
+        </div>
+
+        <!-- Row 2 -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="trestbps">Resting BP</label>
+            <input type="number" name="trestbps" step="any" required />
+          </div>
+          <div class="form-group">
+            <label for="chol">Cholesterol</label>
+            <input type="number" name="chol" step="any" required />
+          </div>
+          <div class="form-group">
+            <label for="fbs">Fasting Blood Sugar</label>
+            <input type="number" name="fbs" step="any" required />
+          </div>
+        </div>
+
+        <!-- Row 3 -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="restecg">Rest ECG</label>
+            <input type="number" name="restecg" step="any" required />
+          </div>
+          <div class="form-group">
+            <label for="thalach">Max Heart Rate</label>
+            <input type="number" name="thalach" step="any" required />
+          </div>
+          <div class="form-group">
+            <label for="exang">Exercise Induced Angina</label>
+            <input type="number" name="exang" step="any" required />
+          </div>
+        </div>
+
+        <!-- Row 4 -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="oldpeak">Oldpeak</label>
+            <input type="number" name="oldpeak" step="any" required />
+          </div>
+          <div class="form-group">
+            <label for="slope">Slope</label>
+            <input type="number" name="slope" step="any" required />
+          </div>
+          <div class="form-group">
+            <label for="ca">Major Vessels (ca)</label>
+            <input type="number" name="ca" step="any" required />
+          </div>
+        </div>
+
+        <!-- Row 5 -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="thal">Thalassemia</label>
+            <input type="number" name="thal" step="any" required />
+          </div>
+        </div>
+
+        <input type="submit" value="Predict" />
+      </form>
+
+      {% if prediction %}
+      <h3>Prediction: {{ prediction }}</h3>
+      {% if confidence is not none %}
+      <p>Confidence Score: {{ confidence }}</p>
+      {% endif %} {% endif %}
+    </div>
+  </body>
+</html>
